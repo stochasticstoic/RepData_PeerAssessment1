@@ -3,7 +3,7 @@
 This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
 ## Loading and preprocessing the data
-We start by loading the data.
+I start by loading the data.
 
 
 ```r
@@ -11,6 +11,7 @@ activity = read.csv("activity.csv")
 ```
 
 The variables included in this dataset are: 
+
 * steps: Number of steps taking in a 5-minute interval (missing values are
 coded as NA) 
 * date: The date on which the measurement was taken in YYYY-MM-DD
@@ -27,8 +28,7 @@ clean_activity = activity[complete.cases(activity),]
 
 ## What is mean total number of steps taken per day?
 
-We extract the total of the steps grouped by date and plot the histogram:
-
+I extract the total of the steps grouped by date and plot the histogram:
 
 
 ```r
@@ -45,7 +45,7 @@ ggplot(totalByDay, aes(x=total)) + geom_histogram(colour="black", fill="blue") +
 
 ![plot of chunk unnamed-chunk-3](./PA1_template_files/figure-html/unnamed-chunk-3.png) 
 
-Here, we compute the mean and median, which turn out to be pretty close 
+Here, I compute the mean and median, which turn out to be pretty close:
 
 ```r
 mean(totalByDay$total)
@@ -66,7 +66,8 @@ median(totalByDay$total)
 
 ## What is the average daily activity pattern?
 
-In this part, we examine the average number of steps taken on each 5 minute interval:
+In this part, I examine the average number of steps taken on each 5 minute interval. Note that I also calculate the median, which I plan to use later.
+
 
 
 ```r
@@ -76,9 +77,8 @@ plot(byInterval$interval, byInterval$mean, type="l", main="Average number of ste
 
 ![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-5.png) 
 
-Note that I also calculate the median, which I plan to use later
 
-We observe that the maximum activity occurs at interval 835:
+I observe that the maximum activity occurs at interval 835:
 
 
 ```r
@@ -91,7 +91,7 @@ byInterval[which.max(byInterval$mean),]
 ```
 ## Imputing missing values
 
-Now we go back to examine the missing values:
+Now, I go back to deal with the missing values:
 
 
 ```r
@@ -102,7 +102,7 @@ sum(is.na(activity$steps) )
 ## [1] 2304
 ```
 
-We can impute these missing values by using some sort of aggregation. Since all the values for the first day are missing, an aggregation by day will still not manage to provide values for all the data. Therefore I opted to use an aggregation by interval. I chose the median over the average since it is an integer rather then a floating point value.
+The  missing values can be imputed by some sort of aggregation. Since all the values for the first day are missing, an aggregation by day will still not manage to provide values for all the data. Therefore I opted to use an aggregation by interval. I chose the median over the average since it is an integer rather then a floating point value.
 
 This function uses the median by interval, computed earlier, to fill in any missing values.
 
@@ -138,8 +138,7 @@ head(imputed)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-We use the complete data set with the imputed data from the last step.
-We intruduce two new calculated variables:
+For this step, I use the complete data set with the imputed data from the last step. I intruduce two new calculated variables:
 
 * weekDay: The day of the week for the date
 * datType: a factor with the levels (weekday, weekend)
